@@ -4,6 +4,7 @@ import android.media.MediaPlayer;
 import android.os.Bundle;
 import android.os.PersistableBundle;
 import android.util.Log;
+import android.view.View;
 import android.widget.ProgressBar;
 import android.widget.SeekBar;
 import android.widget.TextView;
@@ -49,5 +50,4 @@ public class DisplayActivity extends AppCompatActivity {
             song_info.setText(nameStr[position]);
         }
     }
-
 }

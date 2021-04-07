@@ -3,4 +3,9 @@
     <string name="song_name">song_name</string>
     <string name="txt_id">txt_id</string>
     <string name="txt_info">txt_info</string>
+    <string name="pause">暂停</string>
+    <string name="prev">上一首</string>
+    <string name="next">下一首</string>
+    <string name="time_info">时间</string>
+    <string name="song_info">信息</string>
 </resources>
