@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <TextView
+        android:id="@+id/song_name"
+        android:layout_width="329dp"
+        android:layout_height="51dp"
+        android:hint="@string/song_name"
+        android:textSize="40sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/txt_id"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/txt_id"
+        android:layout_width="80dp"
+        android:layout_height="110dp"
+        android:hint="@string/txt_id"
+        android:textAlignment="center"
+        android:textSize="50sp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/txt_info"
+        android:layout_width="331dp"
+        android:layout_height="55dp"
+        android:layout_marginTop="4dp"
+        android:text="@string/txt_info"
+        android:textSize="20sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/txt_id"
+        app:layout_constraintTop_toBottomOf="@+id/song_name" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>
