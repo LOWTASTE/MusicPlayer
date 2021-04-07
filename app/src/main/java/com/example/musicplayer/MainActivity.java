@@ -80,6 +80,7 @@ public class MainActivity extends AppCompatActivity {
                     intent.putExtra("currentPosition",currentPosition);
                     intent.putExtra("position",position);
                     intent.putExtra("playMode",playMode);
+                    intent.putExtra("total_num",fields.length);
                     startActivity(intent);
                // setContentView(R.layout.display_layout);
 

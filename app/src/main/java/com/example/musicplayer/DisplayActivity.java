@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.os.PersistableBundle;
 import android.util.Log;
 import android.view.View;
+import android.widget.Button;
 import android.widget.ProgressBar;
 import android.widget.SeekBar;
 import android.widget.TextView;
@@ -18,20 +19,24 @@ public class DisplayActivity extends AppCompatActivity {
     static MediaPlayer music = new MediaPlayer();
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        // 基本操作
         super.onCreate(savedInstanceState);
         setContentView(R.layout.display_layout);
         Context context = DisplayActivity.this;
         SeekBar seekBar = findViewById(R.id.seekBar);
         TextView time_info = findViewById(R.id.time_info);
         TextView song_info = findViewById(R.id.song_info);
+        Button prev = findViewById(R.id.btn_prev);
+        Button pause = findViewById(R.id.btn_pause);
+        Button next = findViewById(R.id.btn_next);
 
         //获取传入信息
-//        int time = getIntent().getIntExtra("time",0);
         int currentPosition = getIntent().getIntExtra("currentPosition", -1);
         int position = getIntent().getIntExtra("position", -1);
         String[] nameStr =  getIntent().getStringArrayExtra("nameStr");
         int[] idStr = getIntent().getIntArrayExtra("idStr");
         boolean playMode = getIntent().getBooleanExtra("playMode", false);
+        int total_num = getIntent().getIntExtra("total_num",0);
 
         //播放逻辑
         if(playMode){
@@ -49,5 +54,48 @@ public class DisplayActivity extends AppCompatActivity {
             time_info.setText(Integer.toString(progressTime/1000)+ " s");
             song_info.setText(nameStr[position]);
         }
+
+
+        //实现按钮事件
+        pause.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if(music.isPlaying()){
+                    music.pause();
+                }
+                else{
+                    music.start();
+                }
+            }
+        });
+        //todo
+        prev.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                music.reset();
+                if (position - 1 < 0){
+                    song_info.setText("没有上一首歌曲");
+                }
+                else {
+                    music.reset();
+                    music = MediaPlayer.create(context,idStr[position - 1]);
+                    music.start();
+                }
+            }
+        });
+        //todo
+        next.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (position + 1 >= total_num){
+                    song_info.setText("没有下一首歌曲");
+                }
+                else {
+                    music.reset();
+                    music = MediaPlayer.create(context,idStr[position + 1]);
+                    music.start();
+                }
+            }
+        });
     }
 }
