@@ -13,7 +13,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import java.util.Timer;
 
 public class DisplayActivity extends AppCompatActivity {
-    MediaPlayer music = new MediaPlayer();
+    static MediaPlayer music = new MediaPlayer();
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -23,7 +23,7 @@ public class DisplayActivity extends AppCompatActivity {
         TextView time_info = findViewById(R.id.time_info);
 
         //获取传入信息
-        int time = getIntent().getIntExtra("time",0);
+//        int time = getIntent().getIntExtra("time",0);
         int currentPosition = getIntent().getIntExtra("currentPosition", -1);
         int position = getIntent().getIntExtra("position", -1);
 //        String[] nameStr =  getIntent().getStringArrayExtra("nameStr");
@@ -31,17 +31,20 @@ public class DisplayActivity extends AppCompatActivity {
         boolean playMode = getIntent().getBooleanExtra("playMode", false);
 
         //播放逻辑
-
+        if(playMode){
+            music.reset();
+            playMode = false;
+        }
         if((position != currentPosition) || !playMode){
             Log.d("IN", "进入播放分支");
             music.reset();
             music = MediaPlayer.create(context,idStr[position]);
             music.start();
+            playMode = true;
+            int progressTime = music.getDuration();
+            progressBar.setMax(progressTime/1000);
+            time_info.setText(Integer.toString(progressTime/1000)+ " s");
         }
-
-        Integer Time = time/1000;
-        time_info.setText(Time.toString());
-        progressBar.setMax(time);
 
 //        Timer timer = new Timer("progress");
 
