@@ -59,6 +59,7 @@
         android:layout_height="165dp"
         android:layout_marginTop="32dp"
         android:text="信息"
+        android:textSize="50sp"
         app:layout_constraintBottom_toTopOf="@+id/seekBar"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
