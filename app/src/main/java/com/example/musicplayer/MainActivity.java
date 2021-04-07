@@ -82,6 +82,7 @@ public class MainActivity extends AppCompatActivity {
                     intent.putExtra("playMode",playMode);
                     startActivity(intent);
                // setContentView(R.layout.display_layout);
+
             }
         });
 
