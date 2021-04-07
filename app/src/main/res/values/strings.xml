@@ -8,4 +8,5 @@
     <string name="next">下一首</string>
     <string name="time_info">时间</string>
     <string name="song_info">信息</string>
+    <string name="now">目前时间</string>
 </resources>
