@@ -21,6 +21,7 @@ public class DisplayActivity extends AppCompatActivity {
     int currentPosition;
     int position;
     boolean playMode;
+    //boolean isSeekbar_Chaning;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         // 基本操作
@@ -100,6 +101,26 @@ public class DisplayActivity extends AppCompatActivity {
                 }
             }
         });
+
+
+//        seekBar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
+//            @Override
+//            public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
+//                int duration2 = music.getDuration() / 1000;//获取音乐总时长
+//                int position = music.getCurrentPosition();//获取当前播放的位置
+//                time_info.setText(calculateTime(duration2));//总时长
+//            }
+//            @Override
+//            public void onStartTrackingTouch(SeekBar seekBar) {
+//                isSeekbar_Chaning = true;
+//            }
+//            @Override
+//            public void onStopTrackingTouch(SeekBar seekBar) {
+//                isSeekbar_Chaning = false;
+//                mediaPlayer.seekTo(seekBar.getProgress());//在当前位置播放
+//                tv_start.setText(calculateTime(mediaPlayer.getCurrentPosition() / 1000));
+//            }
+//        });
 
     }
 
