@@ -10,31 +10,36 @@
         android:id="@+id/btn_pause"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginBottom="48dp"
         android:text="暂停"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.498"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/progress_Bar" />
+        app:layout_constraintTop_toBottomOf="@+id/seekBar"
+        app:layout_constraintVertical_bias="1.0" />
 
     <Button
         android:id="@+id/btn_prev"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginBottom="48dp"
         android:text="上一首"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toStartOf="@+id/btn_pause"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/progress_Bar" />
+        app:layout_constraintHorizontal_bias="0.52"
+        app:layout_constraintStart_toStartOf="parent" />
 
     <Button
         android:id="@+id/btn_next"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginBottom="48dp"
         android:text="下一首"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/btn_pause"
-        app:layout_constraintTop_toBottomOf="@+id/progress_Bar" />
+        app:layout_constraintHorizontal_bias="0.486"
+        app:layout_constraintStart_toEndOf="@+id/btn_pause" />
 
     <ImageView
         android:id="@+id/album"
@@ -45,36 +50,35 @@
         app:layout_constraintHorizontal_bias="0.454"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.037"
+        app:layout_constraintVertical_bias="0.09"
         tools:srcCompat="@tools:sample/avatars" />
-
-    <ProgressBar
-        android:id="@+id/progress_Bar"
-        style="?android:attr/progressBarStyleHorizontal"
-        android:layout_width="361dp"
-        android:layout_height="55dp"
-        android:layout_marginBottom="132dp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/album"
-        app:layout_constraintVertical_bias="0.973" />
 
     <TextView
         android:id="@+id/song_info"
-        android:layout_width="346dp"
-        android:layout_height="169dp"
+        android:layout_width="363dp"
+        android:layout_height="165dp"
+        android:layout_marginTop="32dp"
         android:text="信息"
-        app:layout_constraintBottom_toTopOf="@+id/progress_Bar"
+        app:layout_constraintBottom_toTopOf="@+id/seekBar"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/album" />
+        app:layout_constraintTop_toBottomOf="@+id/album"
+        app:layout_constraintVertical_bias="0.456" />
 
     <TextView
         android:id="@+id/time_info"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="时间"
-        app:layout_constraintBottom_toTopOf="@+id/progress_Bar"
-        app:layout_constraintEnd_toEndOf="@+id/progress_Bar" />
+        app:layout_constraintBottom_toTopOf="@+id/seekBar"
+        app:layout_constraintEnd_toEndOf="@+id/seekBar" />
+
+    <SeekBar
+        android:id="@+id/seekBar"
+        android:layout_width="335dp"
+        android:layout_height="29dp"
+        android:layout_marginBottom="132dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
 </androidx.constraintlayout.widget.ConstraintLayout>
