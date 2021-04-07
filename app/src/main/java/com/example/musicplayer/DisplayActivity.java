@@ -36,6 +36,8 @@ public class DisplayActivity extends AppCompatActivity {
 //            music.start();
 //        }
 
+
+
         Integer Time = time/1000;
         time_info.setText(Time.toString());
         progressBar.setMax(time);
