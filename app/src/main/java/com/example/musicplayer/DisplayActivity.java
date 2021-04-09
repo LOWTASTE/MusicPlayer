@@ -192,6 +192,10 @@ public class DisplayActivity extends AppCompatActivity {
                 public void run() {
                     if(!isSeekBarchaning){
                         seekBar.setProgress(music.getCurrentPosition());
+                        if (!music.isPlaying()){
+                            playMode = false;
+                            Log.d("TAG", "playMode = false");
+                        }
                     }
                 }
             },0,50);
