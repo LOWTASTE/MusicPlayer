@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.constraintlayout.widget.ConstraintLayout
+    android:id="@+id/display"
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
@@ -43,14 +44,13 @@
 
     <ImageView
         android:id="@+id/album"
-        android:layout_width="400dp"
-        android:layout_height="300dp"
+        android:layout_width="373dp"
+        android:layout_height="371dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.454"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.09"
+        app:layout_constraintVertical_bias="0.012"
         tools:srcCompat="@tools:sample/avatars" />
 
     <TextView
@@ -91,4 +91,14 @@
         android:text="@string/now"
         app:layout_constraintBottom_toTopOf="@+id/seekBar"
         app:layout_constraintStart_toStartOf="@+id/seekBar" />
+
+    <Button
+        android:id="@+id/loopType"
+        android:onClick="setLoopMode"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="96dp"
+        android:text=" "
+        app:layout_constraintEnd_toEndOf="@+id/song_info"
+        app:layout_constraintTop_toTopOf="@+id/song_info" />
 </androidx.constraintlayout.widget.ConstraintLayout>

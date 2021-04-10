@@ -1,20 +1,20 @@
 package com.example.musicplayer;
 import android.content.Context;
+import android.graphics.Color;
 import android.media.MediaPlayer;
 import android.os.Bundle;
-import android.os.PersistableBundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
-import android.widget.ProgressBar;
 import android.widget.SeekBar;
 import android.widget.TextView;
 
-import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.constraintlayout.widget.ConstraintLayout;
 
 import java.util.Objects;
+import java.util.Random;
 import java.util.Timer;
 import java.util.TimerTask;
 
@@ -26,6 +26,8 @@ public class DisplayActivity extends AppCompatActivity {
     int position;
     boolean playMode;
     boolean isSeekBarchaning;
+    static int loopMode = 0;
+    static int total_num;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         // 基本操作
@@ -49,7 +51,7 @@ public class DisplayActivity extends AppCompatActivity {
         String[] nameStr =  getIntent().getStringArrayExtra("nameStr");
         int[] idStr = getIntent().getIntArrayExtra("idStr");
         playMode = getIntent().getBooleanExtra("playMode", false);
-        int total_num = getIntent().getIntExtra("total_num",0);
+        total_num = getIntent().getIntExtra("total_num",0);
 
 //        //播放逻辑已整合至play_music
 //        if(playMode){
@@ -87,6 +89,7 @@ public class DisplayActivity extends AppCompatActivity {
         prev.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                playMode = true;
                 music.reset();
                 if (position - 1 < 0){
                     song_info.setText("没有上一首歌曲");
@@ -99,6 +102,8 @@ public class DisplayActivity extends AppCompatActivity {
         next.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                playMode = true;
+                music.reset();
                 if (position + 1 >= total_num){
                     song_info.setText("没有下一首歌曲");
                     position = -1;
@@ -169,6 +174,7 @@ public class DisplayActivity extends AppCompatActivity {
         TextView time_info = findViewById(R.id.time_info);
         TextView song_info = findViewById(R.id.song_info);
         TextView now_info = findViewById(R.id.now_info);
+        Button next = findViewById(R.id.btn_next);
         if(playMode){
             music.reset();
             playMode = false;
@@ -189,6 +195,7 @@ public class DisplayActivity extends AppCompatActivity {
             song_info.setText(nameStr[position]);
 //图片设置
             setAlbum(idStr,nameStr,position);
+            setBackGroundColor();
 
             timer = new Timer();
             timer.schedule(new TimerTask() {
@@ -200,6 +207,27 @@ public class DisplayActivity extends AppCompatActivity {
                     if (!music.isPlaying()){
                         playMode = false;
                         Log.d("TAG", "playMode = false");
+                        if (loopMode == 1){
+                            play_music(idStr, nameStr, position);
+                        }
+                        if (loopMode == 2){
+                            playMode = true;
+                            music.reset();
+//                            if (position + 1 >= total_num){
+//                                song_info.setText("没有下一首歌曲");
+//                                position = -1;
+//                            }
+//                            play_music(idStr,nameStr,++position);
+                        }
+                        if (loopMode == 3){
+                            int jump = (int) (Math.random() * total_num);
+                            for (int i = 0;i < jump;i++){
+                                next.performClick();
+                            }
+
+                        }
+
+
                     }
                 }
             },0,50);
@@ -244,4 +272,46 @@ public class DisplayActivity extends AppCompatActivity {
         ImageView imageView = findViewById(R.id.album);
         imageView.setImageResource(getResources().getIdentifier(nameStr[position],"drawable",getPackageName()));
     }
+
+    private void setBackGroundColor(){
+        ConstraintLayout constraintLayout = findViewById(R.id.display);
+        constraintLayout.setBackgroundColor(new Random().nextInt());
+        //Log.d("TAG", "setBackGroundColor: " + randomHexString(6));
+    }
+
+
+    public void setLoopMode(View view) {
+        Button loopButton =findViewById(R.id.loopType);
+        ++loopMode;
+        if(loopMode > 3){
+            loopMode = 0;
+        }
+        if (loopMode == 0){
+            loopButton.setText("播完停止");
+        }
+        if(loopMode == 1){
+            loopButton.setText("单曲循环");
+        }
+        if(loopMode == 2){
+            loopButton.setText("顺序播放");
+        }
+        if(loopMode == 3){
+            loopButton.setText("随机播放");
+        }
+    }
+//    public static String randomHexString(int len)  {
+//        try {
+//            StringBuffer result = new StringBuffer();
+//            for(int i=0;i<len;i++) {
+//                result.append(Integer.toHexString(new Random().nextInt(16)));
+//            }
+//            return result.toString().toUpperCase();
+//
+//        } catch (Exception e) {
+//            // TODO: handle exception
+//            e.printStackTrace();
+//        }
+//        return null;
+//    }
+
 }
