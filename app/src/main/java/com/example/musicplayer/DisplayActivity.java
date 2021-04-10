@@ -169,7 +169,7 @@ public class DisplayActivity extends AppCompatActivity {
         return null;
     }
 
-    void play_music(int[] idStr,String[] nameStr,int position){
+    void play_music(int[] idStr,String[] nameStr,int p_position){
         SeekBar seekBar = findViewById(R.id.seekBar);
         TextView time_info = findViewById(R.id.time_info);
         TextView song_info = findViewById(R.id.song_info);
@@ -179,11 +179,11 @@ public class DisplayActivity extends AppCompatActivity {
             music.reset();
             playMode = false;
         }
-        if((position != currentPosition) || !playMode){
+        if((p_position != currentPosition) || !playMode){
             seekBar.setProgress(0);
             Log.d("IN", "进入播放分支");
             music.reset();
-            music = MediaPlayer.create(context,idStr[position]);
+            music = MediaPlayer.create(context,idStr[p_position]);
             music.start();
             playMode = true;
             int progressTime = music.getDuration();
@@ -192,9 +192,9 @@ public class DisplayActivity extends AppCompatActivity {
 
             now_info.setText(calculateTime(music.getCurrentPosition() / 1000));
             time_info.setText(calculateTime(progressTime/1000));
-            song_info.setText(nameStr[position]);
+            song_info.setText(nameStr[p_position]);
 //图片设置
-            setAlbum(idStr,nameStr,position);
+            setAlbum(idStr,nameStr,p_position);
             setBackGroundColor();
 
             timer = new Timer();
@@ -207,25 +207,25 @@ public class DisplayActivity extends AppCompatActivity {
                     if (!music.isPlaying()){
                         playMode = false;
                         Log.d("TAG", "playMode = false");
-                        if (loopMode == 1){
-                            play_music(idStr, nameStr, position);
-                        }
-                        if (loopMode == 2){
-                            playMode = true;
-                            music.reset();
+//                        if (loopMode == 1){
+//                            play_music(idStr, nameStr, position);
+//                        }
+//                        if (loopMode == 2){
+//                            playMode = true;
+//                            music.reset();
 //                            if (position + 1 >= total_num){
 //                                song_info.setText("没有下一首歌曲");
 //                                position = -1;
 //                            }
 //                            play_music(idStr,nameStr,++position);
-                        }
-                        if (loopMode == 3){
-                            int jump = (int) (Math.random() * total_num);
-                            for (int i = 0;i < jump;i++){
-                                next.performClick();
-                            }
-
-                        }
+//                        }
+//                        if (loopMode == 3){
+//                            int jump = (int) (Math.random() * total_num);
+//                            for (int i = 0;i < jump;i++){
+//                                next.performClick();
+//                            }
+//
+//                        }
 
 
                     }
@@ -289,15 +289,15 @@ public class DisplayActivity extends AppCompatActivity {
         if (loopMode == 0){
             loopButton.setText("播完停止");
         }
-        if(loopMode == 1){
-            loopButton.setText("单曲循环");
-        }
-        if(loopMode == 2){
-            loopButton.setText("顺序播放");
-        }
-        if(loopMode == 3){
-            loopButton.setText("随机播放");
-        }
+//        if(loopMode == 1){
+//            loopButton.setText("单曲循环");
+//        }
+//        if(loopMode == 2){
+//            loopButton.setText("顺序播放");
+//        }
+//        if(loopMode == 3){
+//            loopButton.setText("随机播放");
+//        }
     }
 //    public static String randomHexString(int len)  {
 //        try {
