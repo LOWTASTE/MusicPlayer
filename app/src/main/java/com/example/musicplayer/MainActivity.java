@@ -9,6 +9,7 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.AdapterView;
+import android.widget.Button;
 import android.widget.ListView;
 import android.widget.SimpleAdapter;
 
@@ -24,6 +25,7 @@ public class MainActivity extends AppCompatActivity {
     //播放状态
     static boolean playMode = false;
     static int currentPosition = -1;
+    static int total_num = -1;
     //MediaPlayer music = new MediaPlayer();
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -33,6 +35,7 @@ public class MainActivity extends AppCompatActivity {
         Context context = MainActivity.this;
         List<HashMap<String, String>> list = new ArrayList<>();
         ListView listView=findViewById(R.id.list_view);
+        Button btnPlayALL = findViewById(R.id.btn_playall);
 
 
         //隐藏上部标题
@@ -47,6 +50,10 @@ public class MainActivity extends AppCompatActivity {
             nameStr[i] = fields[i].getName();
             idStr[i] = getResources().getIdentifier(nameStr[i],"raw",getPackageName());
         }
+
+
+        //歌曲数目
+        total_num = fields.length;
 
 
         //装入hash_map用于显示信息
@@ -84,6 +91,23 @@ public class MainActivity extends AppCompatActivity {
                     startActivity(intent);
                // setContentView(R.layout.display_layout);
 
+            }
+        });
+
+
+        btnPlayALL.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                int position = (int) (Math.random() * total_num);
+                Intent intent = new Intent();
+                intent.setClass(MainActivity.this,DisplayActivity.class);
+                intent.putExtra("nameStr", nameStr);
+                intent.putExtra("idStr",idStr);
+                intent.putExtra("currentPosition",currentPosition);
+                intent.putExtra("position",position);
+                intent.putExtra("playMode",playMode);
+                intent.putExtra("total_num",fields.length);
+                startActivity(intent);
             }
         });
 

@@ -6,6 +6,7 @@ import android.os.PersistableBundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.SeekBar;
 import android.widget.TextView;
@@ -13,6 +14,7 @@ import android.widget.TextView;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
+import java.util.Objects;
 import java.util.Timer;
 import java.util.TimerTask;
 
@@ -36,6 +38,10 @@ public class DisplayActivity extends AppCompatActivity {
         Button prev = findViewById(R.id.btn_prev);
         Button pause = findViewById(R.id.btn_pause);
         Button next = findViewById(R.id.btn_next);
+        Objects.requireNonNull(getSupportActionBar()).hide();
+
+
+//        imageView.setImageResource(R.drawable.alliaskofyou);
 
         //获取传入信息
         currentPosition = getIntent().getIntExtra("currentPosition", -1);
@@ -84,11 +90,9 @@ public class DisplayActivity extends AppCompatActivity {
                 music.reset();
                 if (position - 1 < 0){
                     song_info.setText("没有上一首歌曲");
-                    position = -1;
+                    position = total_num;
                 }
-                else {
-                    play_music(idStr,nameStr,--position);
-                }
+                play_music(idStr,nameStr,--position);
             }
         });
 
@@ -97,11 +101,9 @@ public class DisplayActivity extends AppCompatActivity {
             public void onClick(View v) {
                 if (position + 1 >= total_num){
                     song_info.setText("没有下一首歌曲");
-                    position = total_num;
+                    position = -1;
                 }
-                else {
-                    play_music(idStr,nameStr,++position);
-                }
+                play_music(idStr,nameStr,++position);
             }
         });
 
@@ -185,6 +187,8 @@ public class DisplayActivity extends AppCompatActivity {
             now_info.setText(calculateTime(music.getCurrentPosition() / 1000));
             time_info.setText(calculateTime(progressTime/1000));
             song_info.setText(nameStr[position]);
+//图片设置
+            setAlbum(idStr,nameStr,position);
 
             timer = new Timer();
             timer.schedule(new TimerTask() {
@@ -192,10 +196,10 @@ public class DisplayActivity extends AppCompatActivity {
                 public void run() {
                     if(!isSeekBarchaning){
                         seekBar.setProgress(music.getCurrentPosition());
-                        if (!music.isPlaying()){
-                            playMode = false;
-                            Log.d("TAG", "playMode = false");
-                        }
+                    }
+                    if (!music.isPlaying()){
+                        playMode = false;
+                        Log.d("TAG", "playMode = false");
                     }
                 }
             },0,50);
@@ -234,5 +238,10 @@ public class DisplayActivity extends AppCompatActivity {
                 now_info.setText(calculateTime(music.getCurrentPosition() / 1000));
             }
         });
+    }
+
+    private void setAlbum(int[] idStr,String[] nameStr,int position){
+        ImageView imageView = findViewById(R.id.album);
+        imageView.setImageResource(getResources().getIdentifier(nameStr[position],"drawable",getPackageName()));
     }
 }
