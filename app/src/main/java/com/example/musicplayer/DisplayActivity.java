@@ -179,46 +179,34 @@ public class DisplayActivity extends AppCompatActivity {
             music.reset();
             playMode = false;
         }
-        if((p_position != currentPosition) || !playMode){
-            seekBar.setProgress(0);
-            Log.d("IN", "进入播放分支");
-            music.reset();
-            music = MediaPlayer.create(context,idStr[p_position]);
-            music.start();
-            playMode = true;
-            int progressTime = music.getDuration();
-            seekBar.setMax(progressTime);
+        seekBar.setProgress(0);
+        Log.d("IN", "进入播放分支");
+        music.reset();
+        music = MediaPlayer.create(context,idStr[p_position]);
+        music.start();
+        playMode = true;
+        int progressTime = music.getDuration();
+        seekBar.setMax(progressTime);
 //            time_info.setText(Integer.toString(progressTime/1000)+ " s");
 
-            now_info.setText(calculateTime(music.getCurrentPosition() / 1000));
-            time_info.setText(calculateTime(progressTime/1000));
-            song_info.setText(nameStr[p_position]);
+        now_info.setText(calculateTime(music.getCurrentPosition() / 1000));
+        time_info.setText(calculateTime(progressTime/1000));
+        song_info.setText(nameStr[p_position]);
 //图片设置
-            setAlbum(idStr,nameStr,p_position);
-            setBackGroundColor();
+        setAlbum(idStr,nameStr,p_position);
+        setBackGroundColor();
 
-            timer = new Timer();
-            timer.schedule(new TimerTask() {
-                @Override
-                public void run() {
-                    if(!isSeekBarchaning){
-                        seekBar.setProgress(music.getCurrentPosition());
-                    }
-                    if (!music.isPlaying()){
-                        playMode = false;
-                        Log.d("TAG", "playMode = false");
-//                        if (loopMode == 1){
-//                            play_music(idStr, nameStr, position);
-//                        }
-//                        if (loopMode == 2){
-//                            playMode = true;
-//                            music.reset();
-//                            if (position + 1 >= total_num){
-//                                song_info.setText("没有下一首歌曲");
-//                                position = -1;
-//                            }
-//                            play_music(idStr,nameStr,++position);
-//                        }
+        timer = new Timer();
+        timer.schedule(new TimerTask() {
+            @Override
+            public void run() {
+                if(!isSeekBarchaning){
+                    seekBar.setProgress(music.getCurrentPosition());
+                }
+                if (!music.isPlaying()){
+                    playMode = false;
+                    Log.d("TAG", "playMode = false");
+                    runLoop(idStr, nameStr);
 //                        if (loopMode == 3){
 //                            int jump = (int) (Math.random() * total_num);
 //                            for (int i = 0;i < jump;i++){
@@ -228,10 +216,9 @@ public class DisplayActivity extends AppCompatActivity {
 //                        }
 
 
-                    }
                 }
-            },0,50);
-        }
+            }
+        },0,50);
     }
 
     private void initView(){
@@ -288,30 +275,40 @@ public class DisplayActivity extends AppCompatActivity {
         }
         if (loopMode == 0){
             loopButton.setText("播完停止");
+            Log.d("TAG", "setLoopMode: 播完停止");
         }
-//        if(loopMode == 1){
-//            loopButton.setText("单曲循环");
-//        }
-//        if(loopMode == 2){
-//            loopButton.setText("顺序播放");
-//        }
-//        if(loopMode == 3){
-//            loopButton.setText("随机播放");
-//        }
+        if(loopMode == 1){
+            loopButton.setText("单曲循环");
+            Log.d("TAG", "setLoopMode: 单曲循环");
+        }
+        if(loopMode == 2){
+            loopButton.setText("顺序播放");
+            Log.d("TAG", "setLoopMode: 顺序播放");
+        }
+        if(loopMode == 3){
+            loopButton.setText("随机播放");
+        }
     }
-//    public static String randomHexString(int len)  {
-//        try {
-//            StringBuffer result = new StringBuffer();
-//            for(int i=0;i<len;i++) {
-//                result.append(Integer.toHexString(new Random().nextInt(16)));
-//            }
-//            return result.toString().toUpperCase();
-//
-//        } catch (Exception e) {
-//            // TODO: handle exception
-//            e.printStackTrace();
-//        }
-//        return null;
-//    }
 
+
+    public void runLoop(int[] idStr,String[] nameStr) {
+//        Button loopButton =findViewById(R.id.loopType);
+        Button next = findViewById(R.id.btn_next);
+        ++loopMode;
+        if(loopMode > 3){
+            loopMode = 0;
+        }
+        if (loopMode == 0){
+            return;
+        }
+        if(loopMode == 1){
+            play_music(idStr, nameStr, position);
+        }
+        if(loopMode == 2){
+            next.performClick();
+        }
+        if(loopMode == 3){
+
+        }
+    }
 }
