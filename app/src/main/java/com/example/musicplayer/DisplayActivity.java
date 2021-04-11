@@ -266,7 +266,6 @@ public class DisplayActivity extends AppCompatActivity {
         //Log.d("TAG", "setBackGroundColor: " + randomHexString(6));
     }
 
-
     public void setLoopMode(View view) {
         Button loopButton =findViewById(R.id.loopType);
         ++loopMode;
@@ -289,7 +288,6 @@ public class DisplayActivity extends AppCompatActivity {
             loopButton.setText("随机播放");
         }
     }
-
 
     public void runLoop(int[] idStr,String[] nameStr) {
 //        Button loopButton =findViewById(R.id.loopType);
