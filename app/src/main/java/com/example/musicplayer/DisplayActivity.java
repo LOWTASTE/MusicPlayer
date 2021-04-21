@@ -28,6 +28,9 @@ public class DisplayActivity extends AppCompatActivity {
     boolean isSeekBarchaning;
     static int loopMode = 0;
     static int total_num;
+    static int[] idStr;
+    static String[] nameStr;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         // 基本操作
@@ -48,8 +51,8 @@ public class DisplayActivity extends AppCompatActivity {
         //获取传入信息
         currentPosition = getIntent().getIntExtra("currentPosition", -1);
         position = getIntent().getIntExtra("position", -1);
-        String[] nameStr =  getIntent().getStringArrayExtra("nameStr");
-        int[] idStr = getIntent().getIntArrayExtra("idStr");
+        nameStr =  getIntent().getStringArrayExtra("nameStr");
+        idStr = getIntent().getIntArrayExtra("idStr");
         playMode = getIntent().getBooleanExtra("playMode", false);
         total_num = getIntent().getIntExtra("total_num",0);
 
@@ -86,23 +89,16 @@ public class DisplayActivity extends AppCompatActivity {
             }
         });
 
-        prev.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                playMode = true;
-                music.reset();
-                if (position - 1 < 0){
-                    song_info.setText("没有上一首歌曲");
-                    position = total_num;
-                }
-                play_music(idStr,nameStr,--position);
-            }
-        });
+//        prev.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//
+//            }
+//        });
 
         next.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                playMode = true;
                 music.reset();
                 if (position + 1 >= total_num){
                     song_info.setText("没有下一首歌曲");
@@ -117,9 +113,37 @@ public class DisplayActivity extends AppCompatActivity {
             @Override
             public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
                 int duration2 = music.getDuration() / 1000;//获取音乐总时长
-                int position = music.getCurrentPosition();//获取当前播放的位置
-                now_info.setText(calculateTime(position / 1000));//开始时间
+                int position1 = music.getCurrentPosition();//获取当前播放的位置
+                now_info.setText(calculateTime(position1 / 1000));//开始时间
                 time_info.setText(calculateTime(duration2));//总时长
+                if (duration2==position1){
+                    playMode = false;
+                    if(loopMode==2){
+                        music.reset();
+                        position+=1;
+                        if(position>=total_num){
+                            position=0;
+                        }
+                        play_music(idStr,nameStr,position);
+                    }
+                    else if(loopMode == 1){
+                        play_music(idStr, nameStr, position);
+                    }
+                    else if(loopMode==3){
+                        music.reset();
+                        int i=(int) Math.random()*total_num;
+                        if(i==position){
+                            position+=1;
+                        }
+                        else{
+                            position=i;
+                        }
+                        if(position>=total_num){
+                            position=0;
+                        }
+                        play_music(idStr,nameStr,position);
+                    }
+                }
             }
             @Override
             public void onStartTrackingTouch(SeekBar seekBar) {
@@ -203,22 +227,8 @@ public class DisplayActivity extends AppCompatActivity {
                 if(!isSeekBarchaning){
                     seekBar.setProgress(music.getCurrentPosition());
                 }
-                if (!music.isPlaying()){
-                    playMode = false;
-                    Log.d("TAG", "playMode = false");
-                    runLoop(idStr, nameStr);
-//                        if (loopMode == 3){
-//                            int jump = (int) (Math.random() * total_num);
-//                            for (int i = 0;i < jump;i++){
-//                                next.performClick();
-//                            }
-//
-//                        }
-
-
-                }
             }
-        },0,50);
+        },0,10);
     }
 
     private void initView(){
@@ -286,10 +296,11 @@ public class DisplayActivity extends AppCompatActivity {
         }
         if(loopMode == 3){
             loopButton.setText("随机播放");
+            Log.d("TAG", "setLoopMode: 随机播放");
         }
     }
 
-    public void runLoop(int[] idStr,String[] nameStr) {
+/*    public void runLoop(int[] idStr,String[] nameStr) {
 //        Button loopButton =findViewById(R.id.loopType);
         Button next = findViewById(R.id.btn_next);
         ++loopMode;
@@ -303,10 +314,18 @@ public class DisplayActivity extends AppCompatActivity {
             play_music(idStr, nameStr, position);
         }
         if(loopMode == 2){
-            next.performClick();
+            //next.performClick();
         }
-        if(loopMode == 3){
+    }*/
 
-        }
+    public void prev_onclick(View view) {
+        TextView song_info = findViewById(R.id.song_info);
+        playMode = true;
+        music.reset();
+        if (position - 1 < 0){
+            song_info.setText("没有上一首歌曲");
+            position = total_num;
+        } 
+        play_music(idStr,nameStr,--position);
     }
 }
