@@ -37,6 +37,9 @@ public class MainActivity extends AppCompatActivity {
         ListView listView=findViewById(R.id.list_view);
         Button btnPlayALL = findViewById(R.id.btn_playall);
 
+        //设置封面
+
+
 
         //隐藏上部标题
         Objects.requireNonNull(getSupportActionBar()).hide();
@@ -93,7 +96,6 @@ public class MainActivity extends AppCompatActivity {
 
             }
         });
-
 
         btnPlayALL.setOnClickListener(new View.OnClickListener() {
             @Override

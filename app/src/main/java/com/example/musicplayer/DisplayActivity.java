@@ -1,5 +1,6 @@
 package com.example.musicplayer;
 import android.content.Context;
+import android.content.Intent;
 import android.graphics.Color;
 import android.media.MediaPlayer;
 import android.os.Bundle;
@@ -22,7 +23,7 @@ public class DisplayActivity extends AppCompatActivity {
     static MediaPlayer music = new MediaPlayer();
     Context context = DisplayActivity.this;
     Timer timer;
-    int currentPosition;
+    //    int currentPosition;
     int position;
     boolean playMode;
     boolean isSeekBarchaning;
@@ -38,83 +39,29 @@ public class DisplayActivity extends AppCompatActivity {
         setContentView(R.layout.display_layout);
         SeekBar seekBar = findViewById(R.id.seekBar);
         TextView time_info = findViewById(R.id.time_info);
-        TextView song_info = findViewById(R.id.song_info);
+//       TextView song_info = findViewById(R.id.song_info);
         TextView now_info = findViewById(R.id.now_info);
-        Button prev = findViewById(R.id.btn_prev);
-        Button pause = findViewById(R.id.btn_pause);
-        Button next = findViewById(R.id.btn_next);
+        Button loopButton =findViewById(R.id.loopType);
+        //Button playButton =findViewById(R.id.btn_pause);
         Objects.requireNonNull(getSupportActionBar()).hide();
-
-
-//        imageView.setImageResource(R.drawable.alliaskofyou);
-
         //获取传入信息
-        currentPosition = getIntent().getIntExtra("currentPosition", -1);
+//        currentPosition = getIntent().getIntExtra("currentPosition", -1);
         position = getIntent().getIntExtra("position", -1);
         nameStr =  getIntent().getStringArrayExtra("nameStr");
         idStr = getIntent().getIntArrayExtra("idStr");
         playMode = getIntent().getBooleanExtra("playMode", false);
         total_num = getIntent().getIntExtra("total_num",0);
 
-//        //播放逻辑已整合至play_music
-//        if(playMode){
-//            music.reset();
-//            playMode = false;
-//        }
-//        if((position != currentPosition) || !playMode){
-//            Log.d("IN", "进入播放分支");
-//            music.reset();
-//            music = MediaPlayer.create(context,idStr[position]);
-//            music.start();
-//            playMode = true;
-//            int progressTime = music.getDuration();
-//            seekBar.setMax(progressTime/1000);
-//            time_info.setText(Integer.toString(progressTime/1000)+ " s");
-//            song_info.setText(nameStr[position]);
-//        }
+        loopButton.setText("播完停止");
 
         play_music(idStr,nameStr,position);
-
-
-        //实现按钮事件
-        pause.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if(music.isPlaying()){
-                    music.pause();
-                }
-                else{
-                    music.start();
-                }
-            }
-        });
-
-//        prev.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//
-//            }
-//        });
-
-        next.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                music.reset();
-                if (position + 1 >= total_num){
-                    song_info.setText("没有下一首歌曲");
-                    position = -1;
-                }
-                play_music(idStr,nameStr,++position);
-            }
-        });
-
 
         seekBar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
             @Override
             public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
                 int duration2 = music.getDuration() / 1000;//获取音乐总时长
-                int position1 = music.getCurrentPosition();//获取当前播放的位置
-                now_info.setText(calculateTime(position1 / 1000));//开始时间
+                int position1 = music.getCurrentPosition()/1000;//获取当前播放的位置
+                now_info.setText(calculateTime(position1 ));//开始时间
                 time_info.setText(calculateTime(duration2));//总时长
                 if (duration2==position1){
                     playMode = false;
@@ -131,7 +78,7 @@ public class DisplayActivity extends AppCompatActivity {
                     }
                     else if(loopMode==3){
                         music.reset();
-                        int i=(int) Math.random()*total_num;
+                        int i= (int) (Math.random() * total_num);
                         if(i==position){
                             position+=1;
                         }
@@ -156,6 +103,7 @@ public class DisplayActivity extends AppCompatActivity {
                 now_info.setText(calculateTime(music.getCurrentPosition() / 1000));
             }
         });
+
 
     }
 
@@ -198,7 +146,6 @@ public class DisplayActivity extends AppCompatActivity {
         TextView time_info = findViewById(R.id.time_info);
         TextView song_info = findViewById(R.id.song_info);
         TextView now_info = findViewById(R.id.now_info);
-        Button next = findViewById(R.id.btn_next);
         if(playMode){
             music.reset();
             playMode = false;
@@ -216,8 +163,9 @@ public class DisplayActivity extends AppCompatActivity {
         now_info.setText(calculateTime(music.getCurrentPosition() / 1000));
         time_info.setText(calculateTime(progressTime/1000));
         song_info.setText(nameStr[p_position]);
-//图片设置
-        setAlbum(idStr,nameStr,p_position);
+        //图片设置
+        setAlbum(nameStr,p_position);
+        //背景设置
         setBackGroundColor();
 
         timer = new Timer();
@@ -231,41 +179,8 @@ public class DisplayActivity extends AppCompatActivity {
         },0,10);
     }
 
-    private void initView(){
-        TextView now_info = findViewById(R.id.now_info);
-        TextView time_info = findViewById(R.id.time_info);
-        SeekBar seekBar = findViewById(R.id.seekBar);
-        //绑定监听器，监听拖动到指定位置
-        seekBar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
-            @Override
-            public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
-                int duration = music.getDuration() / 1000;//获取音乐总时长
-                int position = music.getCurrentPosition();//获取当前播放的位置
-                now_info.setText(calculateTime(position / 1000));//开始时间
-                time_info.setText(calculateTime(duration));//总时长
-            }
-            /*
-             * 通知用户已经开始一个触摸拖动手势。
-             * */
-            @Override
-            public void onStartTrackingTouch(SeekBar seekBar) {
-                isSeekBarchaning = true;
-            }
-            /*
-             * 当手停止拖动进度条时执行该方法
-             * 首先获取拖拽进度
-             * 将进度对应设置给MediaPlayer
-             * */
-            @Override
-            public void onStopTrackingTouch(SeekBar seekBar) {
-                isSeekBarchaning = false;
-                music.seekTo(seekBar.getProgress());//在当前位置播放
-                now_info.setText(calculateTime(music.getCurrentPosition() / 1000));
-            }
-        });
-    }
 
-    private void setAlbum(int[] idStr,String[] nameStr,int position){
+    private void setAlbum(String[] nameStr,int position){
         ImageView imageView = findViewById(R.id.album);
         imageView.setImageResource(getResources().getIdentifier(nameStr[position],"drawable",getPackageName()));
     }
@@ -300,32 +215,37 @@ public class DisplayActivity extends AppCompatActivity {
         }
     }
 
-/*    public void runLoop(int[] idStr,String[] nameStr) {
-//        Button loopButton =findViewById(R.id.loopType);
-        Button next = findViewById(R.id.btn_next);
-        ++loopMode;
-        if(loopMode > 3){
-            loopMode = 0;
-        }
-        if (loopMode == 0){
-            return;
-        }
-        if(loopMode == 1){
-            play_music(idStr, nameStr, position);
-        }
-        if(loopMode == 2){
-            //next.performClick();
-        }
-    }*/
-
     public void prev_onclick(View view) {
         TextView song_info = findViewById(R.id.song_info);
-        playMode = true;
+        playMode = false;
         music.reset();
         if (position - 1 < 0){
             song_info.setText("没有上一首歌曲");
             position = total_num;
-        } 
+        }
         play_music(idStr,nameStr,--position);
+    }
+
+    public void next_onclick(View view) {
+        TextView song_info = findViewById(R.id.song_info);
+        playMode = false;
+        music.reset();
+        if (position + 1 >= total_num){
+            song_info.setText("没有下一首歌曲");
+            position = -1;
+        }
+        play_music(idStr,nameStr,++position);
+    }
+
+    public void pause_onclick(View view) {
+        Button playButton =findViewById(R.id.btn_pause);
+        if(music.isPlaying()){
+            music.pause();
+            playButton.setText("播放");
+        }
+        else{
+            music.start();
+            playButton.setText("暂停");
+        }
     }
 }

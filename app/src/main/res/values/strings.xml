@@ -9,4 +9,7 @@
     <string name="time_info">时间</string>
     <string name="song_info">信息</string>
     <string name="now">目前时间</string>
+    <string name="loopMode">播完停止</string>
+    <string name="play_all">PLAY_ALL</string>
+    <string name="favourite_music">Favourite Music</string>
 </resources>

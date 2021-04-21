@@ -18,7 +18,8 @@
         app:layout_constraintHorizontal_bias="0.498"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/seekBar"
-        app:layout_constraintVertical_bias="1.0" />
+        app:layout_constraintVertical_bias="1.0"
+        android:onClick="pause_onclick"/>
 
     <Button
         android:id="@+id/btn_prev"
@@ -41,7 +42,8 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.486"
-        app:layout_constraintStart_toEndOf="@+id/btn_pause" />
+        app:layout_constraintStart_toEndOf="@+id/btn_pause"
+        android:onClick="next_onclick"/>
 
     <ImageView
         android:id="@+id/album"
@@ -99,7 +101,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="96dp"
-        android:text=" "
+        android:text="@string/loopMode"
         app:layout_constraintEnd_toEndOf="@+id/song_info"
         app:layout_constraintTop_toTopOf="@+id/song_info" />
 </androidx.constraintlayout.widget.ConstraintLayout>

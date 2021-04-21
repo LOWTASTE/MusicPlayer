@@ -13,7 +13,8 @@
         android:layout_marginTop="16dp"
         android:layout_marginEnd="12dp"
         android:layout_marginBottom="8dp"
-        android:text="Hello World!"
+        android:text="@string/favourite_music"
+        android:textSize="45sp"
         app:layout_constraintBottom_toTopOf="@+id/button"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent"
@@ -28,7 +29,8 @@
         app:layout_constraintHorizontal_bias="0.736"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        tools:srcCompat="@tools:sample/avatars" />
+        tools:srcCompat="@tools:sample/avatars"
+        android:src="@drawable/alliaskofyou"/>
 
     <ListView
         android:id="@+id/list_view"
@@ -46,7 +48,7 @@
         android:layout_width="382dp"
         android:layout_height="81dp"
         android:layout_marginTop="8dp"
-        android:text="Button"
+        android:text="@string/play_all"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/imageView" />
